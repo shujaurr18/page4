@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Responsive Layout</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css"
+      integrity="sha384-DmYZfSaKj/uM6tAloQi5zVjVO8aEvtLDDZi9q3XdNjKKaW8jC5rMCcPbXa5STwM1"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Server Network</h1>
+          <hr />
+          <div class="row">
+            <div class="col-md-3">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Server 1</h3>
+                </div>
+                <div class="panel-body">
+                  <p>IP Address: 192.168.1.1</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Server 2</h3>
+                </div>
+                <div class="panel-body">
+                  <p>IP Address: 192.168.1.2</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <hr />
+              <button class="btn btn-primary" id="add-server-btn">
+                Add Server
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"
+      integrity="sha384-0YlqpBdPh2Q8sTEVq0YynTg9sT9iHgIbKaoLTk/R1uhUpNqIaOVJglt/82ExdI3t"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        var serverCount = 2;
+
+        $("#add-server-btn").click(function () {
+          serverCount++;
+
+          var newServerPanel = $(
+            '<div class="col-md-3"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Server ' +
+              serverCount +
+              '</h3></div><div class="panel-body"><p>IP Address: <input type="text" class="form-control ip-address-input"></p></div></div></div>'
+          );
+          var leftArrow = $('<div class="arrow left"></div>');
+          var rightArrow = $('<div class="arrow right"></div>');
+
+          newServerPanel.appendTo($(".row:last"));
+          leftArrow.appendTo(newServerPanel.prev().find(".panel-body"));
+          rightArrow.appendTo(newServerPanel.find(".panel-body"));
+
+          $(".arrow").hide();
+        });
+
+        $(".panel-body").click(function () {
+          $(".arrow").hide();
+
+          var currentPanel = $(this).closest(".panel");
+          var currentPanelIndex = $(".panel").index(currentPanel);
+          var nextPanel = $(".panel:eq(" + (currentPanelIndex + 1) + ")");
+
+          currentPanel.find(".right").show();
+          nextPanel.find(".left").show();
+        });
+
+        $("body").click(function (event) {
+          if (!$(event.target).closest(".panel-body").length) {
+            $(".arrow").hide();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
